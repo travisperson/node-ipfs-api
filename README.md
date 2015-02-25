@@ -28,6 +28,14 @@ var files = ["../files/hello.txt", new Buffer("ipfs!")]
 var files = "../files/hello.txt"
 ```
 
+**Curl**
+```
+curl 'http://localhost:5001/api/v0/add?stream-cannels=true' \
+-H 'content-type: multipart/form-data; boundary=a831rwxi1a3gzaorw1w2z49dlsor' \
+-H 'Connection: keep-alive' \
+--data-binary $'--a831rwxi1a3gzaorw1w2z49dlsor\r\nContent-Type: application/octet-stream\r\nContent-Disposition: file; name="file"; filename="Hello.txt"\r\n\r\nhello--a831rwxi1a3gzaorw1w2z49dlsor--' --compressed
+```
+
 **Response**
 ```json
 [{
@@ -36,6 +44,7 @@ var files = "../files/hello.txt"
 }, ...]
 ```
 *The name value will only be set for actual files*
+
 
 
 ### cat
@@ -54,6 +63,11 @@ ipfs.cat(hashs, function(err, res) {
         console.log(res)
     }
 })
+```
+
+**Curl**
+```
+curl "http://localhost:5001/api/v0/cat?arg=<hash>&stream-channels=true"
 ```
 
 **Response**
@@ -78,6 +92,11 @@ ipfs.ls(hashs, function(err, res) {
 })
 ```
 
+**Curl**
+```
+curl "http://localhost:5001/api/v0/ls?arg=<hash>&stream-channels=true"
+```
+
 **Response**
 ```
 {
@@ -94,6 +113,7 @@ ipfs.ls(hashs, function(err, res) {
     ]
 }
 ```
+
 
 **version**
 
@@ -113,6 +133,22 @@ Level 2 commands are simply named spaced wrapped commands
 ### Block
 
 ### Object
+**Curl**
+```
+curl 'http://localhost:5001/api/v0/object/get?arg=QmYEqnfCZp7a39Gxrgyv3qRS4MoCTGjegKV6zroU3Rvr52&stream-channels=true' --compressed
+```
+
+**Response**
+```json
+{
+    Links: [{
+        Name: string,
+        Hash: string,
+        Size: number
+    }, ...],
+    Data: string
+```
+*Data is base64 encoded*
 
 ### Swarm
 
